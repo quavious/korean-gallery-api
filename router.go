@@ -8,7 +8,7 @@ import (
 )
 
 func photoListRoute(mux *http.ServeMux, apiKey string) {
-	mux.HandleFunc("/photos", func(w http.ResponseWriter, r *http.Request) {
+	mux.Handle("/photos", EnableCors(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			w.Write([]byte("Method not allowed"))
@@ -37,11 +37,11 @@ func photoListRoute(mux *http.ServeMux, apiKey string) {
 		b, err := json.Marshal(response)
 		w.Header().Add("content-type", "application/json")
 		w.Write(b)
-	})
+	})))
 }
 
 func photoSearchRoute(mux *http.ServeMux, apiKey string, id string, key string) {
-	mux.HandleFunc("/search", func(w http.ResponseWriter, r *http.Request) {
+	mux.Handle("/search", EnableCors(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			w.Write([]byte("Method not allowed"))
@@ -85,5 +85,5 @@ func photoSearchRoute(mux *http.ServeMux, apiKey string, id string, key string) 
 		b, err := json.Marshal(response)
 		w.Header().Add("content-type", "application/json")
 		w.Write(b)
-	})
+	})))
 }
